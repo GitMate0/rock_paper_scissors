@@ -13,26 +13,39 @@ def beats(a, b)
 	a - 1 == b or b / a == 3
 end
 
-puts("Select shape:")
-(1..3).each do |i|
-	puts("[#{i}] - #{shape(i).center(8, " ")}")
-end
-print("YOUR CHOICE: ")
+loop do
+	Gem.win_platform? ? (system "cls") : (system "clear")
 
-you = gets.chomp.to_i
-enemy = Random.rand(1..3)
+	puts("Select shape:")
+	for i in 1..3 do
+		puts("[#{i}] - [#{shape(i).center(8, " ")}]")
+	end
 
-puts("\nYou chose #{shape(you)}")
-puts("Enemy chose #{shape(enemy)}")
+	print("YOUR CHOICE: ")
+	you = gets.chomp
 
-if you == enemy
-	puts("\nDRAW!")
+	if you.match(/[1-3]/)
+		you = you.to_i
+		enemy = Random.rand(1..3)
 
-elsif beats(you, enemy)
-	puts("\n#{shape(you)} beats #{shape(enemy)}")
-	puts("\nYOU WIN!")
+		puts("\n[ YOU ] chose #{shape(you)}")
+		puts("[ENEMY] chose #{shape(enemy)}")
 
-else
-	puts("\n#{shape(enemy)} beats #{shape(you)}")
-	puts("\nYOU LOSE!")
+		if you == enemy
+			print("\nDRAW!")
+
+		elsif beats(you, enemy)
+			puts("\n#{shape(you)} beats #{shape(enemy)}")
+			puts("\nYOU WIN!")
+			break
+
+		else
+			puts("\n#{shape(enemy)} beats #{shape(you)}")
+			puts("\nYOU LOSE!")
+			break
+		end
+		gets
+	else
+		puts("Invalid input!")
+	end
 end
